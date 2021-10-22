@@ -12,7 +12,9 @@ int main(int argc, char *argv[]){
     //start output matrix A
     for (int i = 0; i < A_row;i++){
         for (int j = 0; j < A_col;j++){
-            fprintf(outputfile, "%2d ", rand()%100);
+            fprintf(outputfile, "%2d", rand()%100);
+            if(j!=A_col-1)
+                fprintf(outputfile, " ");
         }
         fprintf(outputfile, "\n");
     }
@@ -21,9 +23,12 @@ int main(int argc, char *argv[]){
     //start output matrix B
     for (int i = 0; i < B_row;i++){
         for (int j = 0; j < B_col;j++){
-            fprintf(outputfile, "%2d ", rand()%100);
+            fprintf(outputfile, "%2d", rand()%100);
+            if(j!=B_col-1)
+                fprintf(outputfile, " ");
         }
-        fprintf(outputfile, "\n");
+        if(i!=B_row-1)
+            fprintf(outputfile, "\n");
     }
 
     //close the file
