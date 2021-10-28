@@ -2,10 +2,10 @@ CC = gcc
 CFLAGS = -g -Wall
 
 #the row and column of the matrix size
-A_ROW = 1024
+A_ROW = 2048
 A_COL = 2048
 B_ROW = 2048
-B_COL = 1024
+B_COL = 2048
 
 BIN = generate_matrix jik_method kij_method ijk_method kji_method jki_method ikj_method
 OUT = matrix
