@@ -54,7 +54,7 @@ int main(int argc, char *argv[]){
         }
     }
 
-    //multuply:
+    //multiply:
     for (int k = 0; k < A_col;k++){
         for (int i = 0; i < A_row;i++){
             int temp = A[i][k];

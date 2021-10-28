@@ -54,7 +54,7 @@ int main(int argc, char *argv[]){
         }
     }
 
-    //multuply:
+    //multiply:
     for (int i = 0; i < A_row;i++){
         for (int j = 0; j <B_col;j++){
             int sum = 0;

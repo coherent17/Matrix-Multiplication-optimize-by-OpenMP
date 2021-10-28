@@ -54,7 +54,7 @@ int main(int argc, char *argv[]){
         }
     }
 
-    //multuply:
+    //multiply:
     for (int k = 0; k < A_col;k++){
         for (int j = 0; j < B_col;j++){
             int temp = B[k][j];
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]){
     //printMatrix(A, A_row, A_col);
     //printMatrix(B, B_row, B_col);
     //printMatrix(C, A_row, B_col);
-    
+
     fclose(input);
     return 0;
 }
