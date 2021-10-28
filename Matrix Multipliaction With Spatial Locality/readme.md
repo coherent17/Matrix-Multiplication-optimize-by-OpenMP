@@ -17,7 +17,8 @@
 
 ## Coding Time
 
-### ijk method & jik method
+### **ijk method & jik method**
+![](https://i.imgur.com/l11YUpD.png)
 ```c
 //ijk_method
 for (int i = 0; i < A_row;i++){
@@ -39,6 +40,56 @@ for (int j = 0; j < B_col;j++){
             sum += A[i][k] * B[k][j];
         }
         C[i][j] = sum;
+    }
+}
+```
+
+### **jki method & kji method**
+![](https://i.imgur.com/llerSs0.png)
+```c
+//jki_method
+for (int j = 0; j < B_col;j++){
+    for (int k = 0; k < A_col;k++){
+        int temp = B[k][j];
+        for (int i = 0; i < A_row;i++){
+            C[i][j] += A[i][k] * temp;
+        }
+    }
+}
+```
+```c
+//kji_method
+for (int k = 0; k < A_col;k++){
+    for (int j = 0; j < B_col;j++){
+        int temp = B[k][j];
+        for (int i = 0; i < A_row;i++){
+            C[i][j] += A[i][k] * temp;
+        }
+    }
+}
+```
+
+### **kij method & ikj method**
+![](https://i.imgur.com/lr3NMXL.png)
+```c
+//kij_method
+for (int k = 0; k < A_col;k++){
+    for (int i = 0; i < A_row;i++){
+        int temp = A[i][k];
+        for (int j = 0; j < B_col;j++){
+            C[i][j] += temp * B[k][j];
+        }
+    }
+}
+```
+```c
+//ikj_method
+for (int i = 0; i < A_row;i++){
+    for (int k = 0; k < B_row;k++){
+        int temp = A[i][k];
+        for (int j = 0; j < B_col;j++){
+            C[i][j] += temp * B[k][j];
+        }
     }
 }
 ```
