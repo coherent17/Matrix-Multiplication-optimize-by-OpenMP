@@ -2,36 +2,31 @@ CC = gcc
 CFLAGS = -g -Wall
 
 #the row and column of the matrix size
-A_ROW = 3
-A_COL = 4
-B_ROW = 4
-B_COL = 3
+A_ROW = 1024
+A_COL = 2048
+B_ROW = 2048
+B_COL = 1024
 
-BIN = generate_matrix 1dArray 2dArray linkedlist
-OUT = matrix result
+BIN = generate_matrix jik_method kij_method ijk_method kji_method jki_method ikj_method
+OUT = matrix
 
 all: $(BIN)
 
-generate_matrix: generate_matrix.c
+%: %.c
 	$(CC) $(CFLAGS) $< -o $@
 
-1dArray: 1dArray.c
-	$(CC) $(CFLAGS) $< -o $@
-
-2dArray: 2dArray.c
-	$(CC) $(CFLAGS) $< -o $@
-
-linkedlist: linkedlist.c
-	$(CC) $(CFLAGS) $< -o $@
 
 do:
 	./generate_matrix $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
-	rm generate_matrix
-	./1dArray $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
-	./2dArray $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
+	time ./ijk_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
+	time ./jik_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
+	time ./jki_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
+	time ./kji_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
+	time ./kij_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
+	time ./ikj_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
 
 see:
 	cat matrix
 
 clean:
-	rm -rf $(OUT) $(BIN)
+	rm -rf $(OUT) *method generate_matrix
