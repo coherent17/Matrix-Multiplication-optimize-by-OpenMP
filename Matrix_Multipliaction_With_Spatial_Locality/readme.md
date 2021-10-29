@@ -113,7 +113,7 @@ for (int i = 0; i < A_row;i++){
 | method     | A    | B    | C    | total |
 | :--------- | :--- | :--- | :--- | :---- |
 | kij method | 0/8  | 1/8  | 1/8  | 0.25  |
-| ikj method | 8/8  | 1/8  | 1/8  | 0.25  |
+| ikj method | 0/8  | 1/8  | 1/8  | 0.25  |
 
 ## result:
 
