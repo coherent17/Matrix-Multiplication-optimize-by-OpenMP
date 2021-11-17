@@ -2,6 +2,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#ifdef ENABLE_prefetch
+#define __builtin_prefetch(x, rw, locality)
+#endif
+
 #define ROWS 100000
 #define COLS 10000
 
