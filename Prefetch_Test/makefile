@@ -1,20 +1,14 @@
-version = release
-
 CC = gcc
+CFLAGS = -g -Wall -O2
+OBJS = by_rows by_cols by_rows_with_prefetch by_cols_with_prefetch
 
-ifeq ($(version), ENABLE)
-all: by_rows_with_prefetch by_cols_with_prefetch
-CFLAGS = -g -Wall -DENABLE_prefetch -O3
-else
-all: by_rows by_cols
-CFLAGS = -g -Wall -O3
-endif
+all: $(OBJS)
 
 by_rows_with_prefetch: prefetch_by_rows.c
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) -DENABLE_prefetch $< -o $@
 
 by_cols_with_prefetch: prefetch_by_cols.c
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) -DENABLE_prefetch $< -o $@
 
 by_rows:prefetch_by_rows.c
 	$(CC) $(CFLAGS) $< -o $@
@@ -29,4 +23,4 @@ time:
 	time ./by_cols
 
 clean:
-	rm by_rows_with_prefetch by_rows by_cols_with_prefetch by_cols
+	rm $(OBJS)
