@@ -24,12 +24,12 @@ int main(){
         for (j = 0; j < COLS;j++){
             sum+= matrix[i][j];
             //builtin_prefetch:
-            if(j+1<COLS){
-                __builtin_prefetch(&matrix[i][j + 1], 0, 0);
+            if(j+1<COLS && ((j+1)-1)%8==0){
+                __builtin_prefetch(&matrix[i][j+1], 0, 3);
             }
         }
         if(i+1<ROWS){
-            __builtin_prefetch(&matrix[i+1][j], 0, 0);
+            __builtin_prefetch(&matrix[i+1][j], 0, 3);
         }
     }
     printf("sum = %ld\n", sum);
