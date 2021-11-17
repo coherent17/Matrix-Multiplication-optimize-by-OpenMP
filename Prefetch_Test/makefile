@@ -5,15 +5,15 @@ OBJS = by_rows by_cols by_rows_with_prefetch by_cols_with_prefetch
 all: $(OBJS)
 
 by_rows_with_prefetch: prefetch_by_rows.c
-	$(CC) $(CFLAGS) -DENABLE_prefetch $< -o $@
+	$(CC) $(CFLAGS)  $< -o $@
 
 by_cols_with_prefetch: prefetch_by_cols.c
-	$(CC) $(CFLAGS) -DENABLE_prefetch $< -o $@
+	$(CC) $(CFLAGS)  $< -o $@
 
-by_rows:prefetch_by_rows.c
+by_rows:by_rows.c
 	$(CC) $(CFLAGS) $< -o $@
 
-by_cols:prefetch_by_cols.c
+by_cols:by_cols.c
 	$(CC) $(CFLAGS) $< -o $@
 
 time:
