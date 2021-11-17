@@ -23,13 +23,6 @@ int main(){
     for (i = 0; i < ROWS;i++){
         for (j = 0; j < COLS;j++){
             sum+= matrix[i][j];
-            //builtin_prefetch:
-            if(j+1<COLS){
-                __builtin_prefetch(&matrix[i][j + 1], 0, 0);
-            }
-        }
-        if(i+1<ROWS){
-            __builtin_prefetch(&matrix[i+1][j], 0, 0);
         }
     }
     printf("sum = %ld\n", sum);

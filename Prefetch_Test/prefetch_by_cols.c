@@ -2,10 +2,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#ifdef ENABLE_prefetch
-#define __builtin_prefetch(x, rw, locality)
-#endif
-
 #define ROWS 100000
 #define COLS 10000
 
@@ -26,9 +22,13 @@ int main(){
     for (j = 0; j < COLS;j++){
         for (i = 0; i < ROWS;i++){
             sum+= matrix[i][j];
-            if(i+1<ROWS-1){
-            __builtin_prefetch(&matrix[i+1][j], 0, 3);
+            //builtin_prefetch:
+            if(i+1<ROWS){
+                __builtin_prefetch(&matrix[i+1][j], 0, 0);
             }
+        }
+        if(j+1<COLS){
+            __builtin_prefetch(&matrix[i][j+1], 0, 0);
         }
     }
     printf("sum = %ld\n", sum);
