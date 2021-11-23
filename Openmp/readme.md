@@ -6,6 +6,13 @@
 Virtual box的處理器設定:
 (原本是 1CPU調整為4CPU)
 ![](https://i.imgur.com/s9XN9BQ.png)
+調整完後，在terminal輸入:
+```bash=
+$ lscpu
+```
+便可以看到CPU的即時情況，也可以看到有4CPU(S)的資訊
+![](https://i.imgur.com/HRy7WrK.png)
+
 
 ## Start OpenMP
 在使用OpenMP前要先引入標頭檔:
@@ -50,3 +57,73 @@ clean:
 可以觀察到在多執行緒的區塊中printf被執行了四次(預設執行緒為4:defaut # of thread = 4)。
 
 ## 設定執行緒數量:
+```c=
+//用來設定要有多少個執行緒
+#pragma omp parallel num_threads()
+
+//也可以先設定要有多少執行緒，再做平行化:
+omp_set_thread_num()
+#pragma omp parallel
+    
+//得知是第幾個執行緒(index從0開始):
+int omp_get_thread_num()
+```
+
+```c=
+#include <stdio.h>
+#include <omp.h>
+
+int main(){
+    #pragma omp parallel num_threads(4)
+    {
+        int ID = omp_get_thread_num();
+        printf("Thread number =  %d\n", ID);
+    }
+
+    printf("----------------------------\n");
+
+    omp_set_num_threads(3);
+    #pragma omp parallel
+    {
+        int ID = omp_get_thread_num();
+        printf("Thread number =  %d\n", ID);
+    }
+    return 0;
+}
+```
+結果:
+![](https://i.imgur.com/3pe8quV.png)
+
+可以看到若是初始化執行緒數量為n，則thread num =0~n-1
+
+## 平行化for loop:
+有兩種方法，如下:都是先設定執行緒的數量為4，而後針對for loop進行平行化。
+```c=
+#include <stdio.h>
+#include <omp.h>
+
+int main(){
+    #pragma omp parallel num_threads(4)
+    {
+        #pragma omp for
+        for (int i = 0; i < 12;i++){
+            int ID = omp_get_thread_num();
+            printf("CPU<%d>: %d\n",ID, i);
+        }
+    }
+
+    printf("-------------------\n");
+
+    omp_set_num_threads(4);
+    #pragma omp parallel for
+    for (int i = 0; i < 12;i++){
+        int ID = omp_get_thread_num();
+        printf("CPU<%d>: %d\n",ID, i);
+    }
+    printf("\n");
+    return 0;
+}
+```
+結果:
+![](https://i.imgur.com/S5nXxLJ.png)
+可以看到這兩種方法都確實將for loop要做的工作分配給了4個CPU個別去執行。另外，也可以從印出的結果發現OpenMP在分配工作給CPU時，是將連續的區塊分給同一個CPU。
