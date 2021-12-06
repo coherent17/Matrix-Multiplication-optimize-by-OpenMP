@@ -1,18 +1,18 @@
 CC = gcc
-CFLAGS = -g -Wall -std=c99
+CFLAGS = -g -Wall -std=c99 -fopenmp
 CC++ = g++
 C++FLAGS = -g -Wall
 
 #the row and column of the matrix size
-matrix_length = 1024
+matrix_length = 2048
 A_ROW = $(matrix_length)
 A_COL = $(matrix_length)
 B_ROW = $(matrix_length)
 B_COL = $(matrix_length)
 
-EXE = generate_matrix ijk_method compare
+EXE = generate_matrix ijk_method compare ijk_optimize
 OBJ = matrix
-result = golden ijk_result
+result = golden ijk_result ijk_optimize_result
 
 all: $(EXE)
 
@@ -29,6 +29,8 @@ matrix:
 ijk:
 	./ijk_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
 	./compare ijk_result golden
+	./ijk_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
+	./compare ijk_optimize_result golden
 
 clean:
 	rm -rf $(EXE) $(OBJ) $(result)
