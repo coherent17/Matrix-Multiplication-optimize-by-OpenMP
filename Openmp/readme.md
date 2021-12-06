@@ -126,4 +126,5 @@ int main(){
 ```
 結果:
 ![](https://i.imgur.com/S5nXxLJ.png)
-可以看到這兩種方法都確實將for loop要做的工作分配給了4個CPU個別去執行。另外，也可以從印出的結果發現OpenMP在分配工作給CPU時，是將連續的區塊分給同一個CPU。
+
+可以看到這兩種方法都確實將for loop要做的工作分配給了4個CPU個別去執行。另外，也可以從印出的結果發現OpenMP在分配工作給CPU時，是將連續的區塊分給同一個CPU，剛好也滿足先前所提到的spatial locality的優化。接下來便要將openmp的平行化程式設計應用在先前提到的矩陣乘法上。
