@@ -29,8 +29,11 @@ matrix:
 ijk:
 	./ijk_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
 	./compare ijk_result golden
-	./ijk_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
-	./compare ijk_optimize_result golden
+	for number in 1 2 3 4; do\
+		echo thread_num = $$number ;\
+		./ijk_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
+		./compare ijk_optimize_result golden ;\
+	done
 
 clean:
 	rm -rf $(EXE) $(OBJ) $(result)
