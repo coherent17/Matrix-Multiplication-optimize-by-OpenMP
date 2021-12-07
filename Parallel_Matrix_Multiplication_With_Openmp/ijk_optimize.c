@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <time.h>
+#include <omp.h>
 
-#define Start(X) clock_t X = clock()
-#define Stop(X) printf("%s: %g sec.\n", (#X), (double)(clock() - (X)) / CLOCKS_PER_SEC)
+#define Start(X) double X = omp_get_wtime()
+#define Stop(X) printf("%s: %g sec.\n", (#X), (double)(omp_get_wtime() - (X)))
 
 int A_row;
 int A_col;
@@ -19,14 +19,13 @@ int **constructMatrix(int row, int col){
     return matrix;
 }
 
-double omp_get_wtime(void);
-
 int main(int argc, char *argv[]){
 
     A_row = atoi(*(argv + 1));
     A_col = atoi(*(argv + 2));
     B_row = atoi(*(argv + 3));
     B_col = atoi(*(argv + 4));
+    int number_of_threads = atoi(*(argv + 5));
 
     FILE *input = fopen("matrix", "r");
 
@@ -50,10 +49,10 @@ int main(int argc, char *argv[]){
 
     fclose(input);
 
-    double start = omp_get_wtime();
+    Start(ijk_optimize_runtime);
     //multiply:
     int i, j, k;
-    #pragma omp parallel shared(A,B,C) private(i,j,k)
+    #pragma omp parallel shared(A,B,C) private(i,j,k) num_threads(number_of_threads)
     {   
         #pragma omp for
             for (i = 0; i < A_row;i++){
@@ -66,9 +65,9 @@ int main(int argc, char *argv[]){
                 }
             }
     }
-    double stop = omp_get_wtime();
-    printf("ijk_optimize runtime %f sec.\n", stop - start);
+    Stop(ijk_optimize_runtime);
 
+    //output the result to compare with golden result
     FILE *out = fopen("ijk_optimize_result", "w");
     for (int i = 0; i < A_row;i++){
         for (int j = 0; j < B_col;j++){
