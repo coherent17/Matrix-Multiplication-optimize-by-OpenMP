@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <time.h>
+#include <omp.h>
 
-#define Start(X) clock_t X = clock()
-#define Stop(X) printf("%s: %g sec.\n", (#X), (double)(clock() - (X)) / CLOCKS_PER_SEC)
+#define Start(X) double X = omp_get_wtime()
+#define Stop(X) printf("%s: %g sec.\n", (#X), (double)(omp_get_wtime() - (X)))
 
 int A_row;
 int A_col;
@@ -61,6 +61,7 @@ int main(int argc, char *argv[]){
     }
     Stop(ijk_run_time);
 
+    //output the result to compare with golden result
     FILE *out = fopen("ijk_result", "w");
     for (int i = 0; i < A_row;i++){
         for (int j = 0; j < B_col;j++){
