@@ -4,7 +4,7 @@ CC++ = g++
 C++FLAGS = -g -Wall
 
 #the row and column of the matrix size
-matrix_length = 2048
+matrix_length = 512
 A_ROW = $(matrix_length)
 A_COL = $(matrix_length)
 B_ROW = $(matrix_length)
@@ -30,6 +30,7 @@ ijk:
 	./ijk_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
 	./compare ijk_result golden
 	for number in 1 2 3 4; do\
+		echo -------------------------------------- ;\
 		echo thread_num = $$number ;\
 		./ijk_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
 		./compare ijk_optimize_result golden ;\
