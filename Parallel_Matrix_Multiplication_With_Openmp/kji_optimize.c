@@ -58,10 +58,11 @@ int main(int argc, char *argv[]){
     #pragma omp parallel shared(A,B,C) private(i,j,k) num_threads(number_of_threads)
     {   
         #pragma omp for
-            for (int k = 0; k < A_col;k++){
-                for (int j = 0; j < B_col;j++){
+            for (k = 0; k < A_col;k++){
+                for (j = 0; j < B_col;j++){
                     int temp = B[k][j];
-                    for (int i = 0; i < A_row;i++){
+                    for (i = 0; i < A_row;i++){
+                        #pragma omp atomic
                         C[i][j] += A[i][k] * temp;
                     }
                 }
