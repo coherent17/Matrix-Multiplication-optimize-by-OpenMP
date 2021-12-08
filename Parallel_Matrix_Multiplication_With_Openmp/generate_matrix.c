@@ -11,6 +11,13 @@ int **constructMatrix(int row, int col){
     return matrix;
 }
 
+void freeMatrix(int **matrix, int row, int col){
+    for (int i = 0; i < row;i++){
+        free(matrix[i]);
+    }
+    free(matrix);
+}
+
 int main(int argc, char *argv[]){
     int A_row = atoi(*(argv + 1));
     int A_col = atoi(*(argv + 2));
@@ -88,5 +95,8 @@ int main(int argc, char *argv[]){
     }
     fprintf(golden, "\n");
     fclose(golden);
+    freeMatrix(A, A_row, A_col);
+    freeMatrix(B, B_row, B_col);
+    freeMatrix(C, A_row, B_col);
     return 0;
 }
