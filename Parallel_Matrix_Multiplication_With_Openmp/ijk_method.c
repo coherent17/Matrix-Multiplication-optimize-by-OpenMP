@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
         }
     }
     double end_time = omp_get_wtime();
-    printf("%s: %g sec.\n", "ijk_optimize_runtime", end_time - start_time);
+    printf("%s: %g sec.\n", "ijk_method_runtime", end_time - start_time);
 
     //output the result to compare with golden result
     FILE *out = fopen("ijk_result", "w");

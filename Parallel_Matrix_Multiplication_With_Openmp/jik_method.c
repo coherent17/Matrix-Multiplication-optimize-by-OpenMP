@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
         }
     }
     double end_time = omp_get_wtime();
-    printf("%s: %g sec.\n", "jik_optimize_runtime", end_time - start_time);
+    printf("%s: %g sec.\n", "jik_nethod_runtime", end_time - start_time);
 
     //output the result to compare with golden result
     FILE *out = fopen("jik_result", "w");
