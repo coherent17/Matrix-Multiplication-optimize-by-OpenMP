@@ -1,10 +1,6 @@
 #include <stdio.h>
-#include <stdint.h>
 #include <stdlib.h>
 #include <omp.h>
-
-#define Start(X) double X = omp_get_wtime()
-#define Stop(X) printf("%s: %g sec.\n", (#X), (double)(omp_get_wtime() - (X)))
 
 int A_row;
 int A_col;
@@ -17,6 +13,13 @@ int **constructMatrix(int row, int col){
         matrix[i] = (int *)malloc(sizeof(int) * col);
     }
     return matrix;
+}
+
+void freeMatrix(int **matrix, int row, int col){
+    for (int i = 0; i < row;i++){
+        free(matrix[i]);
+    }
+    free(matrix);
 }
 
 int main(int argc, char *argv[]){
@@ -49,7 +52,7 @@ int main(int argc, char *argv[]){
 
     fclose(input);
 
-    Start(ijk_optimize_runtime);
+    double start_time = omp_get_wtime();
     //multiply:
     int i, j, k;
     #pragma omp parallel shared(A,B,C) private(i,j,k) num_threads(number_of_threads)
@@ -65,7 +68,8 @@ int main(int argc, char *argv[]){
                 }
             }
     }
-    Stop(ijk_optimize_runtime);
+    double end_time = omp_get_wtime();
+    printf("%s: %g sec.\n", "ijk_optimize_runtime", end_time - start_time);
 
     //output the result to compare with golden result
     FILE *out = fopen("ijk_optimize_result", "w");
@@ -77,5 +81,9 @@ int main(int argc, char *argv[]){
     }
     fprintf(out, "\n");
     fclose(out);
+    
+    freeMatrix(A, A_row, A_col);
+    freeMatrix(B, B_row, B_col);
+    freeMatrix(C, A_row, B_col);
     return 0;
 }
