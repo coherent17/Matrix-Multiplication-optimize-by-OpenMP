@@ -12,9 +12,9 @@ A_COL = $(matrix_length)
 B_ROW = $(matrix_length)
 B_COL = $(matrix_length)
 
-EXE = generate_matrix ijk_method compare ijk_optimize
+EXE = generate_matrix compare ijk_method ijk_optimize jik_method jik_optimize
 OBJ = matrix
-result = golden ijk_result ijk_optimize_result
+result = golden ijk_result ijk_optimize_result jik_result jik_optimize_result
 
 all: $(EXE)
 
@@ -32,12 +32,24 @@ ijk:
 	./ijk_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
 	./compare ijk_result golden
 	echo ;\
-	echo ---------Parallel by OpenMP----------- ;\
+	echo ----Parallel by OpenMP: ijk method---- ;\
 	for number in 1 2 3 4; do\
 		echo -------------------------------------- ;\
 		echo thread_num = $$number ;\
 		./ijk_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
 		./compare ijk_optimize_result golden ;\
+	done
+
+jik:
+	./jik_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
+	./compare jik_result golden
+	echo ;\
+	echo ----Parallel by OpenMP: jik method---- ;\
+	for number in 1 2 3 4; do\
+		echo -------------------------------------- ;\
+		echo thread_num = $$number ;\
+		./jik_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
+		./compare jik_optimize_result golden ;\
 	done
 
 
