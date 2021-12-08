@@ -12,9 +12,9 @@ A_COL = $(matrix_length)
 B_ROW = $(matrix_length)
 B_COL = $(matrix_length)
 
-EXE = generate_matrix compare ijk_method ijk_optimize jik_method jik_optimize
+EXE = generate_matrix compare ijk_method ijk_optimize jik_method jik_optimize jki_method jki_optimize
 OBJ = matrix
-result = golden ijk_result ijk_optimize_result jik_result jik_optimize_result
+result = golden ijk_result ijk_optimize_result jik_result jik_optimize_result jki_result jki_optimize_result
 
 all: $(EXE)
 
@@ -52,7 +52,17 @@ jik:
 		./compare jik_optimize_result golden ;\
 	done
 
-
+jki:
+	./jki_method $(A_ROW) $(A_COL) $(B_ROW) $(B_COL)
+	./compare jki_result golden
+	echo ;\
+	echo ----Parallel by OpenMP: jki method---- ;\
+	for number in 1 2 3 4; do\
+		echo -------------------------------------- ;\
+		echo thread_num = $$number ;\
+		./jki_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
+		./compare jki_optimize_result golden ;\
+	done
 
 # there are some error using valgrind to detect the memory error:
 # It's valgrind's fault?: https://stackoverflow.com/questions/30376601/valgrind-memory-still-reachable-with-trivial-program-using-iostream
