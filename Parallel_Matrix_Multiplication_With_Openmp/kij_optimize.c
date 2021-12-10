@@ -56,19 +56,16 @@ int main(int argc, char *argv[]){
     //multiply:
     int i, j, k;
     int temp;
-    #pragma omp parallel shared(A,B,C) private(i,j,k,temp) num_threads(number_of_threads)
-    {   
-        #pragma omp for
-            for (k = 0; k < A_col;k++){
-                for (i = 0; i < A_row;i++){
-                    temp = A[i][k];
-                    for (j = 0; j < B_col;j++){
-                        #pragma omp atomic
-                        C[i][j] += temp * B[k][j];
-                    }
+    #pragma omp parallel for shared(A,B,C) private(i,j,k,temp) num_threads(number_of_threads)
+        for (k = 0; k < A_col;k++){
+            for (i = 0; i < A_row;i++){
+                temp = A[i][k];
+                for (j = 0; j < B_col;j++){
+                    #pragma omp atomic
+                    C[i][j] += temp * B[k][j];
                 }
             }
-    }
+        }
     double end_time = omp_get_wtime();
     printf("%s: %g sec.\n", "kij_optimize_runtime", end_time - start_time);
 

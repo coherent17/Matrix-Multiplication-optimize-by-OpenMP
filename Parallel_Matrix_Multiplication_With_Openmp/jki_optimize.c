@@ -55,18 +55,17 @@ int main(int argc, char *argv[]){
     double start_time = omp_get_wtime();
     //multiply:
     int i, j, k;
-    #pragma omp parallel shared(A,B,C) private(i,j,k) num_threads(number_of_threads)
-    {   
-        #pragma omp for
-            for (j = 0; j < B_col;j++){
-                for (k = 0; k < A_col;k++){
-                    int temp = B[k][j];
-                    for (i = 0; i < A_row;i++){
-                        C[i][j] += A[i][k] * temp;
-                    }
+    int temp;
+    #pragma omp parallel for shared(A,B,C) private(i,j,k,temp) num_threads(number_of_threads)
+        for (j = 0; j < B_col;j++){
+            for (k = 0; k < A_col;k++){
+                temp = B[k][j];
+                for (i = 0; i < A_row;i++){
+                    C[i][j] += A[i][k] * temp;
                 }
             }
-    }
+        }
+
     double end_time = omp_get_wtime();
     printf("%s: %g sec.\n", "jki_optimize_runtime", end_time - start_time);
 
