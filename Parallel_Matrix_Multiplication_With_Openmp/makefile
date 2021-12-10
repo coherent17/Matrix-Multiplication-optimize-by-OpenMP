@@ -43,7 +43,7 @@ ijk:
 	./compare ijk_result golden
 	echo ;\
 	echo ----Parallel by OpenMP: ijk method---- ;\
-	for number in 1 2 3 4; do\
+	for number in 2 3 4 5 6 7 8; do\
 		echo -------------------------------------- ;\
 		echo thread_num = $$number ;\
 		./ijk_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
@@ -55,7 +55,7 @@ jik:
 	./compare jik_result golden
 	echo ;\
 	echo ----Parallel by OpenMP: jik method---- ;\
-	for number in 1 2 3 4; do\
+	for number in 2 3 4 5 6 7 8; do\
 		echo -------------------------------------- ;\
 		echo thread_num = $$number ;\
 		./jik_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
@@ -67,7 +67,7 @@ jki:
 	./compare jki_result golden
 	echo ;\
 	echo ----Parallel by OpenMP: jki method---- ;\
-	for number in 1 2 3 4; do\
+	for number in 2 3 4 5 6 7 8; do\
 		echo -------------------------------------- ;\
 		echo thread_num = $$number ;\
 		./jki_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
@@ -79,7 +79,7 @@ kji:
 	./compare kji_result golden
 	echo ;\
 	echo ----Parallel by OpenMP: kji method---- ;\
-	for number in 1 2 3 4; do\
+	for number in 2 3 4 5 6 7 8; do\
 		echo -------------------------------------- ;\
 		echo thread_num = $$number ;\
 		./kji_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
@@ -91,7 +91,7 @@ kij:
 	./compare kij_result golden
 	echo ;\
 	echo ----Parallel by OpenMP: kij method---- ;\
-	for number in 1 2 3 4; do\
+	for number in 2 3 4 5 6 7 8; do\
 		echo -------------------------------------- ;\
 		echo thread_num = $$number ;\
 		./kij_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
@@ -103,7 +103,7 @@ ikj:
 	./compare ikj_result golden
 	echo ;\
 	echo ----Parallel by OpenMP: ikj method---- ;\
-	for number in 1 2 3 4; do\
+	for number in 2 3 4 5 6 7 8; do\
 		echo -------------------------------------- ;\
 		echo thread_num = $$number ;\
 		./ikj_optimize $(A_ROW) $(A_COL) $(B_ROW) $(B_COL) $$number ;\
