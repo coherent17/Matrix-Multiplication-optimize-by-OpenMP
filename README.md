@@ -1,7 +1,7 @@
 # Matrix Multiplication optimize by OpenMP
-
+Professor: 賴伯承 Advisor: 方鈺豪 Student: 何祁恩
 ## Abstract:
-The final project will combine all of the content in this semester. With comparing the spatial locality of the 6 types of matrix multiplication methods, apply parallel programming with OpenMP on the original process, and analysis the performance of the program.
+Matrix multiplication has been widely used in scientific area, such as AI technique, semiconductor atomic calculation and so on. My project will combine all of the content I had learned in this semester. With comparing the spatial locality of the 6 types of matrix multiplication methods, apply parallel programming with OpenMP on the original process, and analyze the performance of the program.
 
 There are three factors will affect the result:
 *    The method to load/store the matrix: Spatial locality.
@@ -12,11 +12,12 @@ There are three factors will affect the result:
 *    Step 1. Generate the testing input matrix with the specific matrix size, and using the ijk method to calculate the standard golden benchmark. (generate_matrix.c)
 *    Step 2. For each method, read the matrix generate from Step 1 and do matrix multiplication with using different numbers of CPU. Record the multiplied part execution time, and output the multiplication result.
 *    Step 3. Compare the result in Step 2 with the golden result generate in Step 1. (compare.cpp)
-*    Step 4. Analysis the execution time and the performance.
+*    Step 4. Data visualization and analyze the execution time and the performance.
 
 ```
-Note:Step1 to Step3 can be done automatically by makefile
+Note: Step1 to Step3 can be done automatically by makefile
 ```
+Source code: https://github.com/coherent17/EE-project/tree/main/Parallel_Matrix_Multiplication_With_Openmp
 
 ## Testing Platform
 NCTU ED520 Server
@@ -69,7 +70,7 @@ Using CPU from 1~8
 |    kij_method(sec)     | 0.470465 | 0.509372 | 0.350315 | 0.383811 | 0.367668 | 0.31437  | 0.359213 | 0.321356 |
 |    ikj_method(sec)     | 0.466623 | 0.278114 | 0.190962 | 0.216237 | 0.22334  | 0.188672 | 0.229131 | 0.219322 |
 
-Dataset4(Done):
+Dataset4:
 Input matrix: $A_{1024 \times 1024} , B_{1024 \times 1024}$
 Output matrix: $C_{1024 \times 1024} = A_{1024 \times 1024} \times B_{1024 \times 1024}$
 Using CPU from 1~8
@@ -96,3 +97,34 @@ Using CPU from 1~8
 |    kji_method(sec)     | 148.008 | 163.153 | 109.588 | 76.9565 | 62.9118 | 52.6488 | 54.4916 | 54.172  |
 |    kij_method(sec)     | 29.9986 | 32.8259 | 22.3705 | 24.1346 | 21.3529 | 19.3978 | 19.6348 | 19.8231 |
 |    ikj_method(sec)     | 29.6981 | 18.0958 | 16.9585 | 16.1297 | 13.886  | 11.9556 | 12.0732 | 12.0618 |
+
+Dataset is available on my [github account](https://github.com/coherent17/EE-project/tree/main/Parallel_Matrix_Multiplication_With_Openmp/Data_visualization)
+
+## Analysis
+
+### Spatial locality analysis
+If the spatial locality of program is good, the cache hit rate will be high, so that, it won't need so much time to load/store the data from/into the memory.
+
+In my project, the element in matrix is int, which is 4-bytes in memory. Assume the cache line is 32-bytes, which can contained 8 integers.
+
+In previous section, I had already finished the calculation of 6 methods: ijk, jik, jki, kji, kij, ikj. Since C is row-wise language, we can conclude that:
+
+The cache not hit rate for 6 methods: $jki = kji > ijk = jik > kij = ikj$
+
+The spatial locality for 6 methods: $jki = kji < ijk = jik < kij = ikj$
+
+However, when paralleling the program into several CPUs to calculate, there exist the data-dependency problem. Two threads want to change the same element at the same time. In $kji,kij$ method, I need to deal with the data-dependency problem, which will stop all threads, and wait for the previous thread to finish its job then continue.
+
+![](https://i.imgur.com/4I0qZQL.png)
+![](https://i.imgur.com/F7Lbuit.png)
+![](https://i.imgur.com/yDBSYsE.png)
+
+### Matrix size analysis
+Everyone can guess that as the matrix size grow, it need more time to finish the matrix multiplication for CPU. For how much does the matrix length affect the execution time, and for how much will the performance improve when applied the parallel programming? I will show you in this block.
+![](https://i.imgur.com/j7yQ6A2.png)
+![](https://i.imgur.com/vDb9iUj.png)
+![](https://i.imgur.com/w4Tn3WI.png)
+![](https://i.imgur.com/VplPg7h.png)
+![](https://i.imgur.com/ovq0HdN.png)
+
+### Parallel analysis
