@@ -134,7 +134,10 @@ In matrix size = 2048, we can see the result clearly.
 
 ### Matrix size analysis
 Everyone can guess that as the matrix size grow, it need more time to finish the matrix multiplication for CPU. For how much does the matrix length affect the execution time, and for how much will the performance improve when applied the parallel programming? I will show you in this block.
-![](https://i.imgur.com/1Vn8Kos.png)
-![](https://i.imgur.com/z5eIWQb.png)
-![](https://i.imgur.com/zZ0KnoD.png)
-![](https://i.imgur.com/u4jTj4r.png)
+
+![](https://i.imgur.com/jV4Ul1N.png)
+*    When using 1 CPU, there is no data-dependency problem, $t_{kji}\approx t_{jki}$, $t_{ijk}\approx t_{jik}$, $t_{kij}\approx t_{ikj}$ as we had explained before.
+![](https://i.imgur.com/tvRJbMf.png)
+![](https://i.imgur.com/VjSGxox.png)
+![](https://i.imgur.com/CQElYNr.png)
+*    When using more than 1 CPU, the data-dependency problem exist. And therefore, the time for kji and kij method need to stall and wait for other threads to finish their job. The execution time will increase.
