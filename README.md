@@ -115,16 +115,26 @@ The spatial locality for 6 methods: $jki = kji < ijk = jik < kij = ikj$
 
 However, when paralleling the program into several CPUs to calculate, there exist the data-dependency problem. Two threads want to change the same element at the same time. In $kji,kij$ method, I need to deal with the data-dependency problem, which will stop all threads, and wait for the previous thread to finish its job then continue.
 
-![](https://i.imgur.com/4I0qZQL.png)
-![](https://i.imgur.com/F7Lbuit.png)
+
+Different methods of matrix multiplication v.s. Execution time and the performance ratio to only using 1 CPU.
 ![](https://i.imgur.com/yDBSYsE.png)
+In matrix size = 2048, we can see the result clearly.
+*    $t_{jki},t_{kji}>t_{ijk},t_{jik}>t_{kij},t_{ikj}$, because of the spatial locality(cache not hit rate)
+*    $t_{kji}>t_{jki}$, although thier cache not hit rate is the same, but in method kji I need to deal with the data-dependency problem, therefore the time is longer
+*    $t_{kij}>t_{ikj}$, although thier cache not hit rate is the same, but in method kji I need to deal with the data-dependency problem, therefore the time is longer
+*    The performance of the programming related to only use 1 CPU(no parallel) is shown on the right side. 
+
+![](https://i.imgur.com/F7Lbuit.png)
+![](https://i.imgur.com/4I0qZQL.png)
+*    In matrix size = 512, the data-dependency caused effect is more apparent than matrix size =1024, 2048, therefore, the execution time is longer.
+![](https://i.imgur.com/KBYAPUF.png)
+![](https://i.imgur.com/Q3DWmAE.png)
+*    In matrix size = 256, 128. There exist a performance peak at using 3 CPUs.
+
 
 ### Matrix size analysis
 Everyone can guess that as the matrix size grow, it need more time to finish the matrix multiplication for CPU. For how much does the matrix length affect the execution time, and for how much will the performance improve when applied the parallel programming? I will show you in this block.
-![](https://i.imgur.com/j7yQ6A2.png)
-![](https://i.imgur.com/vDb9iUj.png)
-![](https://i.imgur.com/w4Tn3WI.png)
-![](https://i.imgur.com/VplPg7h.png)
-![](https://i.imgur.com/ovq0HdN.png)
-
-### Parallel analysis
+![](https://i.imgur.com/1Vn8Kos.png)
+![](https://i.imgur.com/z5eIWQb.png)
+![](https://i.imgur.com/zZ0KnoD.png)
+![](https://i.imgur.com/u4jTj4r.png)
