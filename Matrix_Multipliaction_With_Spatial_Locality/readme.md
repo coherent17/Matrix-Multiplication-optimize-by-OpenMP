@@ -6,7 +6,7 @@
 *   2D Array: 雖然列與列之間需要重新load/store，但是index標示方便，因此我後面選擇使用這個來做運算
 *   Linkedlist: node與node間很大機率為不連續，因此我認為這個的spatial locality會最差
 
-        假如cache line size = 32bytes = 8 * sizeof(int)，也就是說就算load/store Row-Wise的連續記憶體空間，每8個一循環就會有一次not hit。
+    假如cache line size = 32bytes = 8 * sizeof(int)，也就是說就算load/store Row-Wise的連續記憶體空間，每8個一循環就會有一次not hit。
 
 ## How to change the calculation order to improve the spatial locality?
 
@@ -19,7 +19,8 @@
 
 ### **ijk method & jik method**
 
-<img src="./picture/ijk&jik.png" width = "300" />
+
+![](https://i.imgur.com/xFGSyhd.png)
 
 ```c
 //ijk_method
@@ -53,7 +54,8 @@ for (int j = 0; j < B_col;j++){
 | jik method | 8/8  | 1/8  | 0/8  | 1.125 |
 
 ### **jki method & kji method**
-<img src="./picture/jki&kji.png" width = "300" />
+![](https://i.imgur.com/wKFxaZT.png)
+
 
 ```c
 //jki_method
@@ -85,7 +87,8 @@ for (int k = 0; k < A_col;k++){
 | kji method | 8/8  | 0/8  | 8/8  | 2     |
 
 ### **kij method & ikj method**
-<img src="./picture/kij&ikj.png" width = "300" />
+![](https://i.imgur.com/jkYicuO.png)
+
 
 ```c
 //kij_method
@@ -260,7 +263,8 @@ clean:
 
 ### testing result:
 A = 1024x2048 B = 2048x1024
-<img src="./picture/result1.png" />
+![](https://i.imgur.com/0GFRwoI.png)
+
 
 | method       | ijk / jik     | jki & kji     | kij & ikj   |
 | :----------- | :------------ | :------------ | :---------- |
@@ -270,7 +274,8 @@ A = 1024x2048 B = 2048x1024
 
 
 A = 2048x2048 B = 2048x2048
-<img src="./picture/result2.png" />
+![](https://i.imgur.com/yzagYTa.png)
+
 
 | method       | ijk / jik     | jki & kji       | kij & ikj     |
 | :----------- | :------------ | :-------------- | :------------ |
