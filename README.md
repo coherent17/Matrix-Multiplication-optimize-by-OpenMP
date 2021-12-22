@@ -1,12 +1,12 @@
 # Matrix Multiplication optimize by OpenMP
 Professor: 賴伯承 Advisor: 方鈺豪 Student: 何祁恩
 ## Abstract:
-Matrix multiplication has been widely used in scientific area, such as AI technique, semiconductor atomic calculation and so on. My project will combine all of the content I had learned in this semester. With comparing the spatial locality of the 6 types of matrix multiplication methods, apply parallel programming with OpenMP on the original process, and analyze the performance of the program.
+Matrix multiplication has been widely used in scientific area, such as AI/ML, semiconductor atomic simulation and so on. My project will combine all of the content I had learned in this semester. With comparing the spatial locality of the 6 types of matrix multiplication methods, apply parallel programming with OpenMP on the original program, and analyze the performance of the program after parallel programming.
 
 There are three factors will affect the result:
 *    The method to load/store the matrix: Spatial locality.
 *    How big is the input data: Matrix size
-*    Seperate the  jobs into how many part: Number of CPU 
+*    How many CPUs use in the programming: Number of CPUs 
 
 ## Process:
 *    Step 1. Generate the testing input matrix with the specific matrix size, and using the ijk method to calculate the standard golden benchmark. (generate_matrix.c)
@@ -117,27 +117,26 @@ However, when paralleling the program into several CPUs to calculate, there exis
 
 
 Different methods of matrix multiplication v.s. Execution time and the performance ratio to only using 1 CPU.
-![](https://i.imgur.com/yDBSYsE.png)
+![](https://i.imgur.com/tdseloF.png)
 In matrix size = 2048, we can see the result clearly.
 *    $t_{jki},t_{kji}>t_{ijk},t_{jik}>t_{kij},t_{ikj}$, because of the spatial locality(cache not hit rate)
 *    $t_{kji}>t_{jki}$, although thier cache not hit rate is the same, but in method kji I need to deal with the data-dependency problem, therefore the time is longer
 *    $t_{kij}>t_{ikj}$, although thier cache not hit rate is the same, but in method kji I need to deal with the data-dependency problem, therefore the time is longer
 *    The performance of the programming related to only use 1 CPU(no parallel) is shown on the right side. 
-
-![](https://i.imgur.com/F7Lbuit.png)
-![](https://i.imgur.com/4I0qZQL.png)
+![](https://i.imgur.com/BukGR6V.png)
+![](https://i.imgur.com/mVxhluo.png)
 *    In matrix size = 512, the data-dependency caused effect is more apparent than matrix size =1024, 2048, therefore, the execution time is longer.
-![](https://i.imgur.com/KBYAPUF.png)
-![](https://i.imgur.com/Q3DWmAE.png)
+![](https://i.imgur.com/N49qeZZ.png)
+![](https://i.imgur.com/gUv0x6j.png)
+
 *    In matrix size = 256, 128. There exist a performance peak at using 3 CPUs.
 
 
 ### Matrix size analysis
 Everyone can guess that as the matrix size grow, it need more time to finish the matrix multiplication for CPU. For how much does the matrix length affect the execution time, and for how much will the performance improve when applied the parallel programming? I will show you in this block.
 
-![](https://i.imgur.com/jV4Ul1N.png)
+![](https://i.imgur.com/gAhQsoV.png)
+
 *    When using 1 CPU, there is no data-dependency problem, $t_{kji}\approx t_{jki}$, $t_{ijk}\approx t_{jik}$, $t_{kij}\approx t_{ikj}$ as we had explained before.
-![](https://i.imgur.com/tvRJbMf.png)
-![](https://i.imgur.com/VjSGxox.png)
-![](https://i.imgur.com/CQElYNr.png)
+
 *    When using more than 1 CPU, the data-dependency problem exist. And therefore, the time for kji and kij method need to stall and wait for other threads to finish their job. The execution time will increase.
